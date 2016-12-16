@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- saved from url=(0026)http://suellenticwang.com/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <style>
+       body {
+           margin-left: 0px;
+           margin-top: 0px;
+           margin-right: 0px;
+           margin-bottom: 0px;
+       }
+   </style>
+</head>
+<body marginwidth="0" marginheight="0">
+   <script>
+      var optOutButton,
+          dialogWrapper,
+          optionWrapper,
+          commentArea,
+          cancelButton,
+          sendButton,          errorMessageField;
+
+      var init = function() {
+      optOutButton = document.createElement("div");
+      optOutButton.id = "px-infobox-btn-optout";
+      optOutButton.setAttribute("style", "background: #FFFFFF !important;width: 28px !important;height: 16px !important;cursor: pointer !important;position: absolute !important;border: solid #c7c7c7 1px !important; display: none");
+      var optOutButtonImage = document.createElement("img");
+      optOutButtonImage.src = "//static.cmptch.com/v/img/bannerOptOutButton.png";
+      optOutButton.appendChild(optOutButtonImage);
+
+      dialogWrapper = document.createElement("div");
+      dialogWrapper.id = "px-infobox-dialog";
+      dialogWrapper.setAttribute("style", "background: #FFFFFF !important;width: 295px !important;height: 220px !important;position: absolute !important;font-weight: normal !important;font-family: Arial !important;font-size: 12px !important;color: #666666 !important;padding: 0px 6px 18px 12px !important;border: solid #c7c7c7 1px !important;z-index: 2147483646 !important;display: none");
+
+      optionWrapper = document.createElement("div");
+      optionWrapper.id = "px-infobox-option-wrapper";
+      optionWrapper.style.marginTop = "8px";
+      optionWrapper.appendChild(createSurveyOption(1, "Inappropriate"));
+      optionWrapper.appendChild(createSurveyOption(2, "Irrelevant"));
+      optionWrapper.appendChild(createSurveyOption(3, "Repetitive"));
+      optionWrapper.appendChild(createSurveyOption(100, "Other"));
+      var dialogTitle = document.createElement("p");
+      dialogTitle.innerHTML = "What was wrong with this ad?";
+      commentArea = document.createElement("textarea");
+      commentArea.placeholder = "Please provide additional details:";
+      commentArea.setAttribute("maxlength", "250");
+      commentArea.setAttribute("style", "width: 286px !important;height: 70px !important;resize: none !important; -moz-border-radius: 3px !important; -webkit-border-radius: 3px !important;border-radius: 3px !important;border: solid #c7c7c7 1px;margin-top: 15px !important;font-weight: normal !important;font-family: Arial !important;font-size: 12px !important;color: #666666 !important;background-color: #F8F8F8 !important;line-height: 20px !important;padding: 2px !important;");
+
+      dialogWrapper.appendChild(dialogTitle);
+      dialogWrapper.appendChild(optionWrapper);
+      dialogWrapper.appendChild(commentArea);
+
+      var dialogButtonsStyle = "-moz-box-shadow: inset 0px 1px 0px 0px #ffffff !important; -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff !important;box-shadow: inset 0px 1px 0px 0px #ffffff !important;background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6)) !important;background: -moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%) !important;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6', GradientType=0) !important;background-color: #ffffff !important; -moz-border-radius: 3px !important; -webkit-border-radius: 3px !important;border-radius: 3px !important;border: 1px solid #dcdcdc !important;display: inline-block !important;cursor: pointer !important;padding: 3px 10px !important;text-decoration: none !important;text-shadow: 0px 1px 0px #ffffff !important;margin: 5px 5px 0px 0px !important;";
+
+      cancelButton = document.createElement("input");
+      cancelButton.type = "button";
+      cancelButton.setAttribute("style", dialogButtonsStyle);
+      cancelButton.value = "Cancel";
+
+      sendButton = document.createElement("input");
+      sendButton.type = "button";
+      sendButton.setAttribute("style", dialogButtonsStyle);
+      sendButton.value = "Send";
+
+      var buttonWrapper = document.createElement("div");
+      buttonWrapper.style.position = "absolute";
+      buttonWrapper.style.right = "5px";
+      buttonWrapper.style.marginTop = "3px";
+      buttonWrapper.appendChild(cancelButton);
+      buttonWrapper.appendChild(sendButton);
+      errorMessageField = document.createElement("p");
+      errorMessageField.setAttribute("style", "color: #FF0000; float: left;");
+      dialogWrapper.appendChild(errorMessageField);
+      dialogWrapper.appendChild(buttonWrapper);
+
+      if(typeof document.addEventListener !== "undefined") {
+          optOutButton.addEventListener("click", showDialog, false);
+          cancelButton.addEventListener("click", hideDialog, false);
+          sendButton.addEventListener("click", sendInfo, false);
+          commentArea.addEventListener("change", hideInvalidCommentValidation, false);
+          commentArea.addEventListener("keyup", hideInvalidCommentValidation, false);
+          commentArea.addEventListener("input", hideInvalidCommentValidation, false);
+      } else {
+          optOutButton.attachEvent("onclick", showDialog);
+          cancelButton.attachEvent("onclick", hideDialog);
+          sendButton.attachEvent("onclick", sendInfo);
+          commentArea.attachEvent("onchange", hideInvalidCommentValidation);
+          commentArea.attachEvent("onkeyup", hideInvalidCommentValidation);
+          commentArea.attachEvent("oninput", hideInvalidCommentValidation);
+      }
+
+      var infoBox = document.createElement("div");
+      infoBox.appendChild(optOutButton);
+      infoBox.appendChild(dialogWrapper);
+      
+      document.body.appendChild(infoBox);
+      
+     };
+      var createSurveyOption = function(value, text) {
+         var surveyOptionWrapper = document.createElement("div");
+
+         var surveyOption = document.createElement("input");
+         surveyOption.type = "radio";
+         surveyOption.value = value;
+         surveyOption.name = "pxOptOutRadio";
+         surveyOption.id = "pxOptOutRadio_" + value;
+         surveyOption.style.margin = "0";
+         surveyOption.style.cursor = "pointer";
+         surveyOption.style.verticalAlign = "middle";
+
+         if(value == 100) {
+             surveyOption.setAttribute("checked", "");
+         }
+
+         if (surveyOption.addEventListener) {
+             surveyOption.addEventListener("click", hideInvalidCommentValidation, false);
+         } else {
+             surveyOption.attachEvent("onclick", hideInvalidCommentValidation);
+         }
+
+         var surveyOptionText = document.createElement("label");
+         surveyOptionText.style.margin = "0 0 0 5px";
+         surveyOptionText.style.lineHeight = "17px";
+         surveyOptionText.style.cursor = "pointer";
+         surveyOptionText.setAttribute("for", surveyOption.id);
+         surveyOptionText.innerHTML = text;
+
+         surveyOptionWrapper.appendChild(surveyOption);
+         surveyOptionWrapper.appendChild(surveyOptionText);
+
+         return surveyOptionWrapper;
+     };
+     
+     var getCheckedRadioButtonValue = function() {
+         var radioElements = optionWrapper.getElementsByTagName("input");
+         for(var i = 0; i < radioElements.length; i++){
+             if(radioElements[i].checked) {
+                 return radioElements[i].value;
+             }
+         }
+     };
+     
+     var showInvalidCommentValidation = function() {
+         commentArea.style.border = "1px solid #FF0000";
+         errorMessageField.innerHTML = "This field is required";
+     };
+     
+     var hideInvalidCommentValidation = function() {
+         commentArea.style.border = "1px solid #c7c7c7";
+         errorMessageField.innerHTML = "";
+     };
+     
+     var sendInfo = function(params) {
+         if(getCheckedRadioButtonValue() == "100" && commentArea.value.length <= 0) {
+                showInvalidCommentValidation();
+         } else {
+           parent.window.PMO.Interface.notify({
+                type: "INFOBOXSUBMIT",
+                data: {
+                   "radioValue" : getCheckedRadioButtonValue(),
+                   "comment" : commentArea.value
+                }
+           });
+         }
+     }
+     var showDialog = function(params) {
+         parent.window.PMO.Interface.notify({type: "INFOBOXSHOW"});
+     }
+     
+     var hideDialog = function(params) {
+         parent.window.PMO.Interface.notify({type: "INFOBOXHIDE"});
+     }
+     
+     init();
+   </script><div><div id="px-infobox-btn-optout" style="background: #FFFFFF !important;width: 28px !important;height: 16px !important;cursor: pointer !important;position: absolute !important;border: solid #c7c7c7 1px !important; display: none"><img src="./bannerOptOutButton.png"></div><div id="px-infobox-dialog" style="background: #FFFFFF !important;width: 295px !important;height: 220px !important;position: absolute !important;font-weight: normal !important;font-family: Arial !important;font-size: 12px !important;color: #666666 !important;padding: 0px 6px 18px 12px !important;border: solid #c7c7c7 1px !important;z-index: 2147483646 !important;display: none"><p>What was wrong with this ad?</p><div id="px-infobox-option-wrapper" style="margin-top: 8px;"><div><input type="radio" value="1" name="pxOptOutRadio" id="pxOptOutRadio_1" style="margin: 0px; cursor: pointer; vertical-align: middle;"><label for="pxOptOutRadio_1" style="margin: 0px 0px 0px 5px; line-height: 17px; cursor: pointer;">Inappropriate</label></div><div><input type="radio" value="2" name="pxOptOutRadio" id="pxOptOutRadio_2" style="margin: 0px; cursor: pointer; vertical-align: middle;"><label for="pxOptOutRadio_2" style="margin: 0px 0px 0px 5px; line-height: 17px; cursor: pointer;">Irrelevant</label></div><div><input type="radio" value="3" name="pxOptOutRadio" id="pxOptOutRadio_3" style="margin: 0px; cursor: pointer; vertical-align: middle;"><label for="pxOptOutRadio_3" style="margin: 0px 0px 0px 5px; line-height: 17px; cursor: pointer;">Repetitive</label></div><div><input type="radio" value="100" name="pxOptOutRadio" id="pxOptOutRadio_100" checked="" style="margin: 0px; cursor: pointer; vertical-align: middle;"><label for="pxOptOutRadio_100" style="margin: 0px 0px 0px 5px; line-height: 17px; cursor: pointer;">Other</label></div></div><textarea placeholder="Please provide additional details:" maxlength="250" style="width: 286px !important;height: 70px !important;resize: none !important; -moz-border-radius: 3px !important; -webkit-border-radius: 3px !important;border-radius: 3px !important;border: solid #c7c7c7 1px;margin-top: 15px !important;font-weight: normal !important;font-family: Arial !important;font-size: 12px !important;color: #666666 !important;background-color: #F8F8F8 !important;line-height: 20px !important;padding: 2px !important;"></textarea><p style="color: #FF0000; float: left;"></p><div style="position: absolute; right: 5px; margin-top: 3px;"><input type="button" style="-moz-box-shadow: inset 0px 1px 0px 0px #ffffff !important; -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff !important;box-shadow: inset 0px 1px 0px 0px #ffffff !important;background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6)) !important;background: -moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%) !important;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=&#39;#ffffff&#39;, endColorstr=&#39;#f6f6f6&#39;, GradientType=0) !important;background-color: #ffffff !important; -moz-border-radius: 3px !important; -webkit-border-radius: 3px !important;border-radius: 3px !important;border: 1px solid #dcdcdc !important;display: inline-block !important;cursor: pointer !important;padding: 3px 10px !important;text-decoration: none !important;text-shadow: 0px 1px 0px #ffffff !important;margin: 5px 5px 0px 0px !important;" value="Cancel"><input type="button" style="-moz-box-shadow: inset 0px 1px 0px 0px #ffffff !important; -webkit-box-shadow: inset 0px 1px 0px 0px #ffffff !important;box-shadow: inset 0px 1px 0px 0px #ffffff !important;background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6)) !important;background: -moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: -ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%) !important;background: linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%) !important;filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=&#39;#ffffff&#39;, endColorstr=&#39;#f6f6f6&#39;, GradientType=0) !important;background-color: #ffffff !important; -moz-border-radius: 3px !important; -webkit-border-radius: 3px !important;border-radius: 3px !important;border: 1px solid #dcdcdc !important;display: inline-block !important;cursor: pointer !important;padding: 3px 10px !important;text-decoration: none !important;text-shadow: 0px 1px 0px #ffffff !important;margin: 5px 5px 0px 0px !important;" value="Send"></div></div></div>
+
+</body></html>

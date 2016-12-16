@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!-- saved from url=(0556)http://b3.livingplay.com/vast.php?p=YTI5ODQ2NzQ1OTHDXcJHnlg9C%2FApM3kujFhLIuOjELht9j%2BjtOqSWLGlG7iCZKmJFmy79xbO1fIu73aVdU5dhFQ4nMnnUTNJA92AJ2Zxds%2FB2puWT07BZF3nsJDuYlHdFhMIKzttaak2f7xFG1MJoFuCfeQ7GCOUoYPHUSaZVrHUma5dobA5NtFonouOOKOgJZP7swhp5uQL9lAXcmh2SlH%2FA48%2Bid6RPPFCjm8qBWKobB6UaTs4HwKm2S7GlrIVGBfpGxPZ8QjU1cIz%2FF1xyDvlTTFD8JG2Iz3C%2Fhlkvp%2FMOTxWwkFMf7a5A3KpSwJtpr6xAosm92OddTUPPA%2BXd9XFsO%2F6vdxdOCksGMiXMCSlmJXsw41UlR2G1hduZwYZ6Zgl&cids=YTE2OTMwNjMzNDLf%2F0bMyInNzihALcXuOBcG%2F5EuvzI3CaLb8ilJF3xxZkPqdFni7wChR1mz3zKxpNU%3D&shown=0&w=400&h=300 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <script>
+        if (window == window.top) {
+            window.location.replace('http://livingplay.com');
+        }
+    </script>
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+        }
+    </style>
+    <script>
+        prevMsg = '';
+        faMessageDispatcher = function (e) {
+            var msg = e.data.split('_'),
+                msgInfo = {'sender': msg[0], 'data': e.data.substr(msg[0].length + 1)};
+
+            if (msgInfo.sender == 'TARGET') {
+                parent.postMessage(msgInfo.data, '*');
+            } else if (msgInfo.sender == 'PAGE' && (typeof prevMsg == 'undefined' || msgInfo.data !== prevMsg)) {
+                document.getElementById('targetFRM').contentWindow.postMessage(msgInfo.data, '*');
+                prevMsg = msgInfo.data;
+            }
+        };
+        if (window.addEventListener)
+            window.addEventListener('message', faMessageDispatcher, false);
+        else
+            window.attachEvent('onmessage', faMessageDispatcher);
+    </script>
+</head>
+<body marginwidth="0" marginheight="0">
+<iframe id="targetFRM" name="targetFRM" src="./vast(1).html" frameborder="0" scrolling="no" marginwidth="0" marginheight="0" allowtransparency="true" style="border: none;" width="400" height="300">
+</iframe>
+
+</body></html>
